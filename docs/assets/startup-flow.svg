@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 380" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="boxBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="moduleBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1f1f1f"/>
+    </linearGradient>
+    <marker id="arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#666666"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="380" rx="16" fill="#0d0d0d"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700" letter-spacing="2">启 动 流 程</text>
+  <line x1="280" y1="46" x2="520" y2="46" stroke="#333333" stroke-width="1"/>
+
+  <!-- Engine box -->
+  <rect x="50" y="75" width="700" height="50" rx="8" fill="url(#boxBg)" stroke="#777777" stroke-width="1" filter="url(#shadow)"/>
+  <circle cx="75" cy="100" r="8" fill="#666666" opacity="0.3"/>
+  <text x="75" y="105" text-anchor="middle" fill="#cccccc" font-size="11">⚡</text>
+  <text x="92" y="105" fill="#cccccc" font-size="13">引擎：启动基础服务（LLM、调度器等）</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="125" x2="400" y2="150" stroke="#666666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Module A flow -->
+  <rect x="100" y="155" width="600" height="55" rx="8" fill="url(#moduleBg)" stroke="#555555" stroke-width="1" filter="url(#shadow)"/>
+  <text x="125" y="178" fill="#ffffff" font-size="12">A</text>
+  <text x="145" y="178" fill="#cccccc" font-size="12">模块 A 发送 Declaration</text>
+  <text x="145" y="197" fill="#999999" font-size="11">引擎验证依赖 → 注册 → 注入耦合器 → 发送 Startup 事件</text>
+
+  <!-- Arrow down -->
+  <line x1="400" y1="210" x2="400" y2="225" stroke="#666666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Module B flow -->
+  <rect x="100" y="230" width="600" height="55" rx="8" fill="url(#moduleBg)" stroke="#555555" stroke-width="1" filter="url(#shadow)"/>
+  <text x="125" y="253" fill="#ffffff" font-size="12">B</text>
+  <text x="145" y="253" fill="#cccccc" font-size="12">模块 B 发送 Declaration</text>
+  <text x="145" y="272" fill="#999999" font-size="11">引擎验证依赖 → 注册 → 注入耦合器 → 发送 Startup 事件</text>
+
+  <!-- Arrow down with final -->
+  <line x1="400" y1="285" x2="400" y2="305" stroke="#666666" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <rect x="200" y="310" width="400" height="38" rx="8" fill="url(#boxBg)" stroke="#888888" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="400" y="334" text-anchor="middle" fill="#e0e0e0" font-size="13" font-weight="600">所有模块注册完毕 → 引擎进入运行状态</text>
+</svg>

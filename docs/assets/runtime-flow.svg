@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 360" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="boxBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="moduleBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1f1f1f"/>
+    </linearGradient>
+    <marker id="arrowRight" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6" fill="#777777"/>
+    </marker>
+    <marker id="arrowLeft" markerWidth="8" markerHeight="6" refX="0" refY="3" orient="auto">
+      <path d="M8,0 L0,3 L8,6" fill="#888888"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="2" stdDeviation="4" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="360" rx="16" fill="#0d0d0d"/>
+
+  <!-- Title -->
+  <text x="400" y="36" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700" letter-spacing="2">运 行 时 消 息 流</text>
+  <line x1="260" y1="46" x2="540" y2="46" stroke="#333333" stroke-width="1"/>
+
+  <!-- Three column headers -->
+  <text x="120" y="78" text-anchor="middle" fill="#cccccc" font-size="13" font-weight="600">模块 A</text>
+  <text x="400" y="78" text-anchor="middle" fill="#cccccc" font-size="13" font-weight="600">引擎 (Engine)</text>
+  <text x="680" y="78" text-anchor="middle" fill="#cccccc" font-size="13" font-weight="600">模块 B</text>
+
+  <!-- Column dividers -->
+  <line x1="240" y1="65" x2="240" y2="310" stroke="#333333" stroke-width="1"/>
+  <line x1="560" y1="65" x2="560" y2="310" stroke="#333333" stroke-width="1"/>
+
+  <!-- Step 1: call() -->
+  <rect x="30" y="90" width="180" height="30" rx="6" fill="url(#moduleBg)" stroke="#555555" stroke-width="1"/>
+  <text x="120" y="109" text-anchor="middle" fill="#e0e0e0" font-size="11">call("foo.bar", ...)</text>
+
+  <!-- Arrow from A to Engine -->
+  <line x1="210" y1="105" x2="398" y2="105" stroke="#777777" stroke-width="1.5" marker-end="url(#arrowRight)"/>
+
+  <!-- Step 2: Engine receives -->
+  <rect x="280" y="90" width="240" height="30" rx="6" fill="url(#boxBg)" stroke="#777777" stroke-width="1"/>
+  <text x="400" y="109" text-anchor="middle" fill="#cccccc" font-size="11">收到请求，查服务注册表</text>
+
+  <!-- Step 3: Route to B -->
+  <line x1="520" y1="105" x2="558" y2="105" stroke="#777777" stroke-width="1.5" marker-end="url(#arrowRight)"/>
+
+  <rect x="590" y="90" width="180" height="30" rx="6" fill="url(#moduleBg)" stroke="#555555" stroke-width="1"/>
+  <text x="680" y="109" text-anchor="middle" fill="#e0e0e0" font-size="11">on_message(Request)</text>
+
+  <!-- Step 4: B processes -->
+  <rect x="590" y="140" width="180" height="55" rx="6" fill="url(#moduleBg)" stroke="#555555" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="680" y="165" text-anchor="middle" fill="#999999" font-size="11">处理请求</text>
+
+  <!-- Step 5: response from B to Engine -->
+  <line x1="590" y1="215" x2="522" y2="215" stroke="#888888" stroke-width="1.5" marker-end="url(#arrowLeft)"/>
+
+  <rect x="280" y="200" width="240" height="30" rx="6" fill="url(#boxBg)" stroke="#777777" stroke-width="1"/>
+  <text x="400" y="219" text-anchor="middle" fill="#cccccc" font-size="11">回复路由回请求方</text>
+
+  <!-- Step 6: Engine to A -->
+  <line x1="280" y1="215" x2="212" y2="215" stroke="#888888" stroke-width="1.5" marker-end="url(#arrowLeft)"/>
+
+  <rect x="30" y="200" width="180" height="30" rx="6" fill="url(#moduleBg)" stroke="#555555" stroke-width="1"/>
+  <text x="120" y="219" text-anchor="middle" fill="#e0e0e0" font-size="11">收到 response</text>
+
+  <!-- Step labels -->
+  <circle cx="35" cy="86" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="35" y="90" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">1</text>
+
+  <circle cx="290" cy="86" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="290" y="90" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">2</text>
+
+  <circle cx="600" cy="86" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="600" y="90" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">3</text>
+
+  <circle cx="600" cy="136" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="600" y="140" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">4</text>
+
+  <circle cx="290" cy="196" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="290" y="200" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">5</text>
+
+  <circle cx="35" cy="196" r="9" fill="#444444" stroke="#666666" stroke-width="1"/>
+  <text x="35" y="200" text-anchor="middle" fill="#cccccc" font-size="10" font-weight="600">6</text>
+
+  <!-- Description at bottom -->
+  <rect x="100" y="265" width="600" height="45" rx="8" fill="#141414" stroke="#444444" stroke-width="1" stroke-dasharray="4,2"/>
+  <text x="400" y="286" text-anchor="middle" fill="#888888" font-size="11">模块 A 不知道 foo.bar 由谁提供 · 引擎查服务注册表 → 找到模块 B → 转发 → 返回结果</text>
+
+  <!-- Legend -->
+  <line x1="50" y1="330" x2="90" y2="330" stroke="#777777" stroke-width="1.5" marker-end="url(#arrowRight)"/>
+  <text x="98" y="334" fill="#666666" font-size="10">请求</text>
+  <line x1="160" y1="330" x2="200" y2="330" stroke="#888888" stroke-width="1.5" marker-end="url(#arrowLeft)"/>
+  <text x="208" y="334" fill="#666666" font-size="10">回复</text>
+</svg>

@@ -44,7 +44,7 @@
 
 协议定义了三种角色：
 
-![协议三角色](./docs/assets/three-roles.svg)
+![协议三角色](./docs/assets/three-roles.svg?t=2)
 
 ### 引擎（Runtime）
 - 提供 LLM 调用、会话调度、Prompt 构建、工具执行等基础动力
@@ -150,29 +150,11 @@
 
 ### 5.1 启动流程
 
-```
-引擎：启动基础服务（LLM、调度等）
-  │
-  ├─→ 模块 A：发送 Declaration
-  │   │ 引擎验证依赖 → 注册 → 给模块 A 注入耦合器 → 发送 Startup 事件
-  │
-  ├─→ 模块 B：发送 Declaration
-  │   │ 引擎验证依赖 → 注册 → 给模块 B 注入耦合器 → 发送 Startup 事件
-  │
-  └─→ 所有模块注册完毕 → 引擎进入运行状态
-```
+![启动流程](./docs/assets/startup-flow.svg?t=1)
 
 ### 5.2 运行时消息流
 
-```
-模块 A                    引擎                       模块 B
-  │                        │                          │
-  │──call("foo.bar")───────│─────────────────────────│
-  │                        │──on_message(Request)────│
-  │                        │                          │ 处理请求
-  │                        │←────response────────────│
-  │←──────response─────────│                          │
-```
+![运行时消息流](./docs/assets/runtime-flow.svg?t=1)
 
 模块 A 不知道 `foo.bar` 由谁提供。引擎查服务注册表→找到模块 B→转发→返回结果。
 
