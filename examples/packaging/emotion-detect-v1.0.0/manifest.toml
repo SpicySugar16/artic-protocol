@@ -14,7 +14,7 @@ url = "https://github.com/SpicySugar16/artic-protocol"
 [module.declare]
 provides = ["emotion.detect"]
 requires = []
-handlers = ["system.startup"]
+handlers = ["startup", "on_message"]
 
 [compatibility]
 min_protocol_version = "draft-01"

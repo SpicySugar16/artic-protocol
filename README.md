@@ -208,7 +208,30 @@ A `.amod` package bundles a module's code, manifest, and assets into a single di
 tremolite module install emotion-detect-v1.0.0.amod
 ```
 
+### Packaging Tool
+
+This repo provides [`tools/artic-pkg/`](tools/artic-pkg/) — a Python CLI tool for building, validating, and inspecting `.amod` packages:
+
+```bash
+# Validate and build
+./tools/artic-pkg/artic-pkg build examples/packaging/emotion-detect-v1.0.0/
+
+# Inspect
+./tools/artic-pkg/artic-pkg info emotion-detect-v1.0.0.amod
+```
+
 An example package is at [`examples/packaging/`](examples/packaging/).
+
+**Building a package from scratch:**
+
+```bash
+# 1. Create a module directory with manifest.toml + module/ entry point
+# 2. Validate it
+./tools/artic-pkg/artic-pkg validate my-module-v1.0.0/
+# 3. Build
+./tools/artic-pkg/artic-pkg build my-module-v1.0.0/
+# → my-module-v1.0.0.amod
+```
 
 ---
 
@@ -431,6 +454,29 @@ An example package is at [`examples/packaging/`](examples/packaging/).
 tremolite module install emotion-detect-v1.0.0.amod
 ```
 
+### 打包工具
+
+本仓库提供了 [`tools/artic-pkg/`](tools/artic-pkg/) ——一个 Python CLI 工具，用于构建、校验和查看 `.amod` 包：
+
+```bash
+# 校验并打包
+./tools/artic-pkg/artic-pkg build examples/packaging/emotion-detect-v1.0.0/
+
+# 查看包信息
+./tools/artic-pkg/artic-pkg info emotion-detect-v1.0.0.amod
+```
+
 示例包在 [`examples/packaging/`](examples/packaging/) 目录下。
+
+**自己打包一个模块：**
+
+```bash
+# 1. 创建模块目录，包含 manifest.toml + module/ 入口文件
+# 2. 校验结构
+./tools/artic-pkg/artic-pkg validate my-module-v1.0.0/
+# 3. 打包
+./tools/artic-pkg/artic-pkg build my-module-v1.0.0/
+# → my-module-v1.0.0.amod
+```
 
 </details>
