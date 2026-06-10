@@ -17,7 +17,7 @@ requires = []
 handlers = ["startup", "on_message"]
 
 [compatibility]
-min_protocol_version = "draft-01"
+min_protocol_version = "v0.1.0"
 engines = ["tremolite", "*"]
 
 [install]

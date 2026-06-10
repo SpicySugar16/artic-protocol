@@ -1,4 +1,4 @@
-# Artic Protocol 规格说明书 v0.1 (draft-01)
+# Artic Protocol 规格说明书 v0.1.0
 
 > 本文档是 Artic Protocol 的精确技术规格。
 > 任何实现此协议的引擎和模块应当以此为基准。

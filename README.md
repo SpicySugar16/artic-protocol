@@ -190,11 +190,11 @@ See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md).
 
 ## 9. Protocol Version
 
-Current version: **draft-01**
+Current version: **v0.1.0**
 
-The protocol is a draft. Systems implementing Artic Protocol should mark the version they support.
+Systems implementing Artic Protocol should mark the version they support.
 
-Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
+Version format: `vMAJOR.MINOR.PATCH` for stable releases, `draft-NN` during development.
 
 ---
 
@@ -436,11 +436,11 @@ An example package is at [`examples/packaging/`](examples/packaging/).
 
 ## 九、协议版本
 
-当前版本：**draft-01**
+当前版本：**v0.1.0**
 
-协议处于草案阶段。任何实现 Artic Protocol 的系统，请标记其支持的协议版本。
+任何实现 Artic Protocol 的系统，请标记其支持的协议版本。
 
-版本号格式：`draft-NN` 或 `vMAJOR.MINOR`（定稿后）。
+版本号格式：稳定版用 `vMAJOR.MINOR.PATCH`，开发中可用 `draft-NN`。
 
 ---
 
