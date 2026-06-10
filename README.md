@@ -1,49 +1,8 @@
-<!--
-╔══════════════════════════════════════════════════════════╗
-║  Artic Protocol — Bilingual README                      ║
-║  Toggle between English and Chinese with the buttons     ║
-║  below. Default: English.                                ║
-╚══════════════════════════════════════════════════════════╝
--->
-<input type="radio" name="lang" id="lang-en" checked hidden>
-<input type="radio" name="lang" id="lang-zh" hidden>
-
-<style>
-.lang-bar {
-  display: flex; gap: 0; margin: 20px 0; user-select: none;
-  border: 1px solid #d0d7de; border-radius: 6px; overflow: hidden;
-  width: fit-content;
-}
-.lang-btn {
-  display: inline-block; padding: 6px 22px; font-size: 14px;
-  cursor: pointer; transition: all .15s;
-  color: #656d76; background: #f6f8fa; border-right: 1px solid #d0d7de;
-}
-.lang-bar .lang-btn:last-child { border-right: none; }
-.lang-btn:hover { color: #0969da; background: #ddf4ff; }
-#lang-en:checked ~ .lang-bar .lang-en-btn,
-#lang-zh:checked ~ .lang-bar .lang-zh-btn {
-  color: #fff; background: #0969da; font-weight: 600;
-}
-.content-zh { display: none; }
-#lang-en:checked ~ .content-en { display: block; }
-#lang-zh:checked ~ .content-en { display: none; }
-#lang-zh:checked ~ .content-zh { display: block; }
-</style>
-
-<div class="lang-bar">
-  <label for="lang-en" class="lang-btn lang-en-btn">English</label>
-  <label for="lang-zh" class="lang-btn lang-zh-btn">中文</label>
-</div>
-
-<!-- ======================================================================== -->
-<!-- ENGLISH                                                                  -->
-<!-- ======================================================================== -->
-<div class="content-en">
-
 # Artic Protocol
 
 > **Artic Protocol** — A standard communication protocol for agent modules
+
+**English** · <a href="#chinese-version">中文</a>
 
 Any engine and modules that implement Artic Protocol, regardless of language or framework, can be plugged in, discover each other, and collaborate at runtime.
 
@@ -237,16 +196,20 @@ The protocol is a draft. Systems implementing Artic Protocol should mark the ver
 
 Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
 
-</div>
+---
 
-<!-- ======================================================================== -->
-<!-- CHINESE                                                                  -->
-<!-- ======================================================================== -->
-<div class="content-zh">
+<div id="chinese-version"></div>
+
+<details>
+<summary><strong>🌐 中文版本</strong> (点击展开)</summary>
+
+<br>
 
 # Artic Protocol
 
 > **关 节 协 议** —— 智能体模块间的标准通讯协议
+
+<a href="#">English</a> · **中文**
 
 任何实现了 Artic Protocol 的引擎和模块，无论用什么语言、什么框架，都可以即插即用、互相发现、协作运行。
 
@@ -442,4 +405,4 @@ Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
 
 版本号格式：`draft-NN` 或 `vMAJOR.MINOR`（定稿后）。
 
-</div>
+</details>
