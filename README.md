@@ -19,9 +19,8 @@
 | LangChain | `Runnable` 链式调用 | 前一个的输出直接传给后一个 |
 | AutoGPT | 插件 + 命令注册表 | 循环调用命令，模块之间不认识 |
 | Semantic Kernel | `Plugin` + `Function` | 通过 Kernel 路由，但强类型绑定 |
-| CrewAI | `Agent` + `Task` | 通过 process 编排，无独立模块 |
-| 透闪石（改造前） | `Module` trait + downcast | 通过名字查模块，然后强转类型 |
-
+|| CrewAI | `Agent` + `Task` | 通过 process 编排，无独立模块 |
+|
 **共同问题：** 模块和引擎绑死了。用 LangChain 写的插件不能在 Semantic Kernel 上跑，因为它们的「接头」形状不一样。
 
 ### Artic 要解决的
