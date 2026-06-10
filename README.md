@@ -198,6 +198,20 @@ Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
 
 ---
 
+## 10. Module Packaging
+
+See [SPEC.md Section 10](SPEC.md#10-%E6%A8%A1%E5%9D%97%E6%89%93%E5%8C%85%E6%A0%BC%E5%BC%8Fmodule-package-format) for the **Module Package Format (`.amod`)** specification.
+
+A `.amod` package bundles a module's code, manifest, and assets into a single distributable archive — like an APK for agent modules. Install it with:
+
+```bash
+tremolite module install emotion-detect-v1.0.0.amod
+```
+
+An example package is at [`examples/packaging/`](examples/packaging/).
+
+---
+
 <div id="chinese-version"></div>
 
 <details>
@@ -404,5 +418,19 @@ Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
 协议处于草案阶段。任何实现 Artic Protocol 的系统，请标记其支持的协议版本。
 
 版本号格式：`draft-NN` 或 `vMAJOR.MINOR`（定稿后）。
+
+---
+
+## 十、模块打包
+
+详见 [SPEC.md 第 10 节](SPEC.md#10-%E6%A8%A1%E5%9D%97%E6%89%93%E5%8C%85%E6%A0%BC%E5%BC%8Fmodule-package-format) 的 **模块包格式（`.amod`）** 规范。
+
+`.amod` 包将模块的代码、清单和资源打包为一个可分发的归档文件——就像智能体模块的 APK。安装方式：
+
+```bash
+tremolite module install emotion-detect-v1.0.0.amod
+```
+
+示例包在 [`examples/packaging/`](examples/packaging/) 目录下。
 
 </details>
