@@ -1,0 +1,36 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "artic-pkg"
+version = "0.1.0"
+description = "Artic Protocol .amod module package tool — build, validate, inspect, extract"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "SpicySugar16", email = "spicysugar@artic-protocol.org" },
+]
+keywords = ["artic", "protocol", "amod", "module", "package", "agent"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: System :: Archiving :: Packaging",
+]
+
+[project.urls]
+Homepage = "https://github.com/SpicySugar16/artic-protocol"
+Repository = "https://github.com/SpicySugar16/artic-protocol"
+Documentation = "https://github.com/SpicySugar16/artic-protocol/blob/main/tools/artic-pkg/README.md"
+
+[project.scripts]
+artic-pkg = "artic_pkg:main"
+
+[tool.setuptools]
+py-modules = ["artic_pkg"]

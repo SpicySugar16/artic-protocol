@@ -1,0 +1,8 @@
+README.md
+artic_pkg.py
+pyproject.toml
+artic_pkg.egg-info/PKG-INFO
+artic_pkg.egg-info/SOURCES.txt
+artic_pkg.egg-info/dependency_links.txt
+artic_pkg.egg-info/entry_points.txt
+artic_pkg.egg-info/top_level.txt
