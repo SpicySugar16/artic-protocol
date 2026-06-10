@@ -154,7 +154,7 @@
 
 ### 5.2 运行时消息流
 
-![运行时消息流](./docs/assets/runtime-flow.svg?t=1)
+![运行时消息流](./docs/assets/runtime-flow.svg?t=2)
 
 模块 A 不知道 `foo.bar` 由谁提供。引擎查服务注册表→找到模块 B→转发→返回结果。
 
