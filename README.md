@@ -1,3 +1,249 @@
+<!--
+╔══════════════════════════════════════════════════════════╗
+║  Artic Protocol — Bilingual README                      ║
+║  Toggle between English and Chinese with the buttons     ║
+║  below. Default: English.                                ║
+╚══════════════════════════════════════════════════════════╝
+-->
+<input type="radio" name="lang" id="lang-en" checked hidden>
+<input type="radio" name="lang" id="lang-zh" hidden>
+
+<style>
+.lang-bar {
+  display: flex; gap: 0; margin: 20px 0; user-select: none;
+  border: 1px solid #d0d7de; border-radius: 6px; overflow: hidden;
+  width: fit-content;
+}
+.lang-btn {
+  display: inline-block; padding: 6px 22px; font-size: 14px;
+  cursor: pointer; transition: all .15s;
+  color: #656d76; background: #f6f8fa; border-right: 1px solid #d0d7de;
+}
+.lang-bar .lang-btn:last-child { border-right: none; }
+.lang-btn:hover { color: #0969da; background: #ddf4ff; }
+#lang-en:checked ~ .lang-bar .lang-en-btn,
+#lang-zh:checked ~ .lang-bar .lang-zh-btn {
+  color: #fff; background: #0969da; font-weight: 600;
+}
+.content-zh { display: none; }
+#lang-en:checked ~ .content-en { display: block; }
+#lang-zh:checked ~ .content-en { display: none; }
+#lang-zh:checked ~ .content-zh { display: block; }
+</style>
+
+<div class="lang-bar">
+  <label for="lang-en" class="lang-btn lang-en-btn">English</label>
+  <label for="lang-zh" class="lang-btn lang-zh-btn">中文</label>
+</div>
+
+<!-- ======================================================================== -->
+<!-- ENGLISH                                                                  -->
+<!-- ======================================================================== -->
+<div class="content-en">
+
+# Artic Protocol
+
+> **Artic Protocol** — A standard communication protocol for agent modules
+
+Any engine and modules that implement Artic Protocol, regardless of language or framework, can be plugged in, discover each other, and collaborate at runtime.
+
+---
+
+## 1. Why This Protocol
+
+### The Current Situation
+
+Each framework in the agent ecosystem defines its own module interface:
+
+| Framework | Module Interface | Inter-Module Communication |
+|-----------|-----------------|----------------------------|
+| LangChain | `Runnable` chaining | Output of one feeds directly into the next |
+| AutoGPT | Plugin + command registry | Loop invokes commands; modules don't know each other |
+| Semantic Kernel | `Plugin` + `Function` | Routed through Kernel, but strongly typed binding |
+| General agent frameworks | Custom interfaces + hardcoded registration | Framework-private mechanisms, no cross-framework reuse |
+
+**Common problem:** Modules and engines are tightly coupled. A plugin written for LangChain cannot run on Semantic Kernel — their connector shapes don't match.
+
+### What Artic Solves
+
+- One standard protocol between engine and modules, not tied to any language
+- Modules declare "what I can do"; the engine routes by capability, not by name
+- Modules can come from different authors, repos, and languages — as long as they follow the protocol, they collaborate
+- Upgrading, replacing, or hot-swapping a module requires no changes to the engine or other modules
+
+---
+
+## 2. In One Sentence
+
+**Modules declare their capabilities and dependencies using standard message envelopes; the engine routes requests to the module that provides the named service.**
+
+- Modules interact using service names, not module names
+- The engine does not care about internal implementation
+- Replacing a module = pull out the old one, plug in the new one
+
+---
+
+## 3. Protocol Roles
+
+The protocol defines three roles:
+
+![Protocol Three Roles](./docs/assets/three-roles-en.svg?t=1)
+
+### Engine (Runtime)
+- Supplies core power: LLM calls, session scheduling, tool execution
+- Maintains a **Service Registry** — routes requests between modules by capability name
+- Manages module lifecycle and reliable message delivery
+
+### Module
+- Declares capabilities and service dependencies on startup
+- Connects to the engine through a standard coupling interface
+- Calls other modules' services through the coupling interface (the engine handles routing)
+- Does not need to know the implementation language, version, or author of other modules
+
+### Developer
+- Implements the `Module` interface and declaration file per the protocol spec
+- Modules can be written in any language (Rust, Python, TypeScript, Go, ...)
+- The engine provides SDKs or reference implementations
+
+---
+
+## 4. Core Concepts
+
+### 4.1 Service
+
+A service is a first-class citizen in the protocol. What a module provides = what services it registers.
+
+```
+Service naming convention: <domain>.<operation>
+Examples:
+  emotion.detect     — Detect emotion from text
+  memory.recall      — Retrieve history from memory
+  memory.store       — Store a message to memory
+  llm.chat           — Generate a reply via LLM
+  schedule.dispatch  — Dispatch a message to the scheduler
+```
+
+Service names are defined by module authors. The engine does not validate naming conventions (it only routes).
+
+### 4.2 Declaration
+
+An "identity card" sent by the module on startup:
+
+| Field | Description | Required |
+|-------|-------------|----------|
+| `module_id` | Unique module identifier | Yes |
+| `name` | Human-readable name | Yes |
+| `version` | Semantic version | Yes |
+| `author.name` | Author name | Yes |
+| `author.contact` | Contact information | Yes |
+| `author.description` | Module purpose description | Yes |
+| `author.license` | License | No |
+| `provides[]` | List of provided services | Yes |
+| `requires[]` | List of required services | No |
+| `required_modules[]` | List of required module IDs | No |
+| `handlers[]` | Events the module is interested in | No |
+
+### 4.3 Coupling
+
+The connector between a module and the engine. Modules use the coupling to invoke services:
+
+```
+Call patterns:
+  Synchronous (wait for reply): coupling.call("memory.recall", payload, timeout=5)
+  Fire-and-forget:              coupling.fire("schedule.dispatch", payload)
+  Broadcast:                    coupling.broadcast("system.alert", payload)
+  Register identity:            coupling.declare(declaration)
+```
+
+Internally, the coupling wraps calls into standard message envelopes and routes them through the engine.
+
+### 4.4 Message Envelope
+
+All inter-module communication uses a standard envelope:
+
+```json
+{
+  "id": "a1b2c3d4-e5f6-...",
+  "from": "emotion",
+  "to": "memory.recall",
+  "kind": "request",
+  "payload": { "session_id": "...", "limit": 20 },
+  "reply_to": null,
+  "timestamp": 1718000000000
+}
+```
+
+The engine reads only the `to` field for routing and never inspects the `payload` content.
+
+### 4.5 Dependency Check
+
+After collecting all declarations, the engine:
+
+1. Aggregates all modules' `provides` → builds the service registry
+2. For each module's `requires`, checks whether a provider exists
+3. If dependencies are missing, the engine refuses to start under-provisioned modules and returns an error list
+
+This ensures modules know their dependencies are satisfied at startup, rather than crashing at runtime when a service is unavailable.
+
+---
+
+## 5. Protocol Flow
+
+### 5.1 Startup Flow
+
+![Startup Flow](./docs/assets/startup-flow-en.svg?t=1)
+
+### 5.2 Runtime Message Flow
+
+![Runtime Message Flow](./docs/assets/runtime-flow-en.svg?t=1)
+
+Module A does not know who provides `foo.bar`. The engine looks up the service registry → finds Module B → forwards → returns the result.
+
+---
+
+## 6. What the Protocol Does Not Do
+
+| Not covered | Reason |
+|-------------|--------|
+| Define message payload schema | Engine inspects envelopes only, not payloads |
+| Specify serialization format | JSON recommended, but only key-value readability is required |
+| Provide language SDKs | Protocol defines interfaces; implementations are language-specific |
+| Mandate clustering / distribution | Single-process multi-module setups work too |
+| Manage inter-module security | Trust model is up to the engine implementation |
+| Define error handling strategies | Retry, backoff, and circuit-breaking are module-level decisions |
+
+---
+
+## 7. Existing Implementations
+
+| Implementation | Language | Status | Repository |
+|---------------|----------|--------|------------|
+| Tremolite | Rust | ⚡ Core protocol implemented | https://github.com/spicysugar/tremolite |
+| Your name | - | ✍️ Waiting for you | - |
+
+---
+
+## 8. Quick Start
+
+See [docs/GETTING_STARTED.md](docs/GETTING_STARTED.md).
+
+---
+
+## 9. Protocol Version
+
+Current version: **draft-01**
+
+The protocol is a draft. Systems implementing Artic Protocol should mark the version they support.
+
+Version format: `draft-NN` or `vMAJOR.MINOR` (after stabilization).
+
+</div>
+
+<!-- ======================================================================== -->
+<!-- CHINESE                                                                  -->
+<!-- ======================================================================== -->
+<div class="content-zh">
+
 # Artic Protocol
 
 > **关 节 协 议** —— 智能体模块间的标准通讯协议
@@ -47,7 +293,7 @@
 ![协议三角色](./docs/assets/three-roles.svg?t=2)
 
 ### 引擎（Runtime）
-- 提供 LLM 调用、会话调度、Prompt 构建、工具执行等基础动力
+- 提供基础动力：LLM 调用、会话调度、Prompt 构建、工具执行等基础动力
 - 维护**服务注册表**（谁提供什么服务）
 - 接收模块的请求，按服务名称路由到正确的模块
 - 将回复返回给请求方
@@ -195,3 +441,5 @@
 协议处于草案阶段。任何实现 Artic Protocol 的系统，请标记其支持的协议版本。
 
 版本号格式：`draft-NN` 或 `vMAJOR.MINOR`（定稿后）。
+
+</div>

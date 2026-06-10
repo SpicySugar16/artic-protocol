@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="engineBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1c1c1c"/>
+      <stop offset="100%" stop-color="#141414"/>
+    </linearGradient>
+    <linearGradient id="moduleBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2a2a2a"/>
+      <stop offset="100%" stop-color="#1f1f1f"/>
+    </linearGradient>
+    <linearGradient id="devBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#333333"/>
+      <stop offset="100%" stop-color="#262626"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="16" fill="#0d0d0d"/>
+
+  <!-- Title -->
+  <text x="400" y="42" text-anchor="middle" fill="#ffffff" font-size="20" font-weight="700" letter-spacing="2">Three Protocol Roles</text>
+  <line x1="240" y1="54" x2="560" y2="54" stroke="#333333" stroke-width="1"/>
+
+  <!-- ===== Engine Box ===== -->
+  <rect x="200" y="78" width="400" height="110" rx="12" fill="url(#engineBg)" stroke="#888888" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Engine label -->
+  <circle cx="228" cy="106" r="10" fill="#888888" opacity="0.2"/>
+  <text x="228" y="111" text-anchor="middle" fill="#ffffff" font-size="13">⚡</text>
+  <text x="248" y="111" fill="#ffffff" font-size="15" font-weight="600">Engine (Runtime)</text>
+
+  <!-- Engine features -->
+  <text x="228" y="136" fill="#999999" font-size="12">• Supplies: LLM calls · Session scheduling · Tool execution</text>
+  <text x="228" y="155" fill="#999999" font-size="12">• Maintains Service Registry — routes requests by capability name</text>
+  <text x="228" y="174" fill="#999999" font-size="12">• Manages module lifecycle · Reliable message delivery</text>
+
+  <!-- Connection lines from engine to modules -->
+  <line x1="250" y1="188" x2="250" y2="248" stroke="#666666" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="400" y1="188" x2="400" y2="248" stroke="#666666" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="550" y1="188" x2="550" y2="248" stroke="#666666" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Coupling interface label -->
+  <text x="400" y="226" text-anchor="middle" fill="#888888" font-size="10">
+    ─── PowerCoupling (Standard Interface) ───
+  </text>
+
+  <!-- ===== Module Boxes ===== -->
+  <!-- Module A -->
+  <rect x="145" y="248" width="210" height="90" rx="10" fill="url(#moduleBg)" stroke="#555555" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="250" y="280" text-anchor="middle" fill="#cccccc" font-size="13" font-weight="600">📦 Module</text>
+  <text x="250" y="300" text-anchor="middle" fill="#999999" font-size="11">Declares capabilities &amp; dependencies</text>
+  <text x="250" y="318" text-anchor="middle" fill="#999999" font-size="11">Accesses engine power via coupling</text>
+
+  <!-- Module B -->
+  <rect x="380" y="248" width="190" height="90" rx="10" fill="url(#moduleBg)" stroke="#555555" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="475" y="280" text-anchor="middle" fill="#cccccc" font-size="13" font-weight="600">🛠️ Module</text>
+  <text x="475" y="300" text-anchor="middle" fill="#999999" font-size="11">Calls other modules' services</text>
+  <text x="475" y="318" text-anchor="middle" fill="#999999" font-size="11">Engine routes requests by name</text>
+
+  <!-- Module C -->
+  <rect x="595" y="248" width="60" height="90" rx="10" fill="url(#moduleBg)" stroke="#555555" stroke-width="1.5" stroke-dasharray="4,2" filter="url(#shadow)"/>
+  <text x="625" y="295" text-anchor="middle" fill="#888888" font-size="12" font-weight="600">+</text>
+  <text x="625" y="318" text-anchor="middle" fill="#666666" font-size="9">More</text>
+
+  <!-- ===== Developer Section ===== -->
+  <rect x="145" y="380" width="510" height="85" rx="10" fill="url(#devBg)" stroke="#777777" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Developer label -->
+  <circle cx="178" cy="408" r="10" fill="#777777" opacity="0.2"/>
+  <text x="178" y="413" text-anchor="middle" fill="#ffffff" font-size="13">👤</text>
+  <text x="198" y="413" fill="#e0e0e0" font-size="14" font-weight="600">Developer</text>
+
+  <text x="178" y="436" fill="#999999" font-size="12">• Implements Module interface + declaration per spec</text>
+  <text x="178" y="454" fill="#999999" font-size="12">• Supports any language (Rust · Python · TypeScript · Go …)</text>
+
+  <!-- Arrow from developer to modules -->
+  <path d="M 400 380 L 400 348" stroke="#777777" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Legend at bottom -->
+  <line x1="50" y1="490" x2="120" y2="490" stroke="#444444" stroke-width="1"/>
+  <text x="130" y="495" fill="#888888" font-size="12">Engine provides · Module declares · Developer implements</text>
+</svg>
