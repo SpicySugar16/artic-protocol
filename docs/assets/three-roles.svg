@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" font-family="system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif">
+  <defs>
+    <linearGradient id="engineBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1a1a2e"/>
+      <stop offset="100%" stop-color="#16213e"/>
+    </linearGradient>
+    <linearGradient id="moduleBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#1e3a5f"/>
+      <stop offset="100%" stop-color="#152238"/>
+    </linearGradient>
+    <linearGradient id="devBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2d1b69"/>
+      <stop offset="100%" stop-color="#1f1245"/>
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="115%" height="115%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.3"/>
+    </filter>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="520" rx="16" fill="#0d1117"/>
+
+  <!-- Title -->
+  <text x="400" y="42" text-anchor="middle" fill="#e6edf3" font-size="20" font-weight="700" letter-spacing="2">协 议 三 角 色</text>
+  <line x1="240" y1="54" x2="560" y2="54" stroke="#30363d" stroke-width="1"/>
+
+  <!-- ===== Engine Box ===== -->
+  <rect x="200" y="78" width="400" height="110" rx="12" fill="url(#engineBg)" stroke="#58a6ff" stroke-width="2" filter="url(#shadow)"/>
+  
+  <!-- Engine label -->
+  <circle cx="228" cy="106" r="10" fill="#58a6ff" opacity="0.2"/>
+  <text x="228" y="111" text-anchor="middle" fill="#58a6ff" font-size="14" font-weight="bold">⚡</text>
+  <text x="248" y="111" fill="#58a6ff" font-size="15" font-weight="700">引擎 (Engine / Runtime)</text>
+  
+  <!-- Engine features -->
+  <text x="228" y="136" fill="#8b949e" font-size="12">• 提供基础动力：LLM 调用 · 会话调度 · 工具执行</text>
+  <text x="228" y="155" fill="#8b949e" font-size="12">• 维护服务注册表 —— 按能力名称路由模块间请求</text>
+  <text x="228" y="174" fill="#8b949e" font-size="12">• 管理模块生命周期 · 保障消息可靠投递</text>
+
+  <!-- Connection lines from engine to modules -->
+  <line x1="250" y1="188" x2="250" y2="248" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="400" y1="188" x2="400" y2="248" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+  <line x1="550" y1="188" x2="550" y2="248" stroke="#58a6ff" stroke-width="1.5" stroke-dasharray="4,3"/>
+
+  <!-- Coupling interface label -->
+  <text x="400" y="226" text-anchor="middle" fill="#58a6ff" font-size="10" filter="url(#glow)">
+    ─── 标准耦合器 (PowerCoupling) ───
+  </text>
+
+  <!-- ===== Module Boxes ===== -->
+  <!-- Module A -->
+  <rect x="145" y="248" width="210" height="90" rx="10" fill="url(#moduleBg)" stroke="#1f6feb" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="250" y="280" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="600">📦 模 块</text>
+  <text x="250" y="300" text-anchor="middle" fill="#8b949e" font-size="11">声明自身能力与服务依赖</text>
+  <text x="250" y="318" text-anchor="middle" fill="#8b949e" font-size="11">通过耦合器获取引擎动力</text>
+  
+  <!-- Module B -->
+  <rect x="380" y="248" width="190" height="90" rx="10" fill="url(#moduleBg)" stroke="#1f6feb" stroke-width="1.5" filter="url(#shadow)"/>
+  <text x="475" y="280" text-anchor="middle" fill="#58a6ff" font-size="13" font-weight="600">🛠️ 模 块</text>
+  <text x="475" y="300" text-anchor="middle" fill="#8b949e" font-size="11">调用彼此服务</text>
+  <text x="475" y="318" text-anchor="middle" fill="#8b949e" font-size="11">引擎按名称路由请求</text>
+
+  <!-- Module C -->
+  <rect x="595" y="248" width="60" height="90" rx="10" fill="url(#moduleBg)" stroke="#1f6feb" stroke-width="1.5" stroke-dasharray="4,2" filter="url(#shadow)"/>
+  <text x="625" y="295" text-anchor="middle" fill="#58a6ff" font-size="12" font-weight="600">+</text>
+  <text x="625" y="318" text-anchor="middle" fill="#8b949e" font-size="9">更多</text>
+
+  <!-- ===== Developer Section ===== -->
+  <rect x="145" y="380" width="510" height="85" rx="10" fill="url(#devBg)" stroke="#8957e5" stroke-width="1.5" filter="url(#shadow)"/>
+
+  <!-- Developer label -->
+  <circle cx="178" cy="408" r="10" fill="#8957e5" opacity="0.2"/>
+  <text x="178" y="413" text-anchor="middle" fill="#8957e5" font-size="14" font-weight="bold">👤</text>
+  <text x="198" y="413" fill="#8957e5" font-size="14" font-weight="700">开发者 (Developer)</text>
+
+  <text x="178" y="436" fill="#8b949e" font-size="12">• 按照协议规范实现 Module 接口 + 声明文件</text>
+  <text x="178" y="454" fill="#8b949e" font-size="12">• 模块可以使用任何语言实现（Rust · Python · TypeScript · Go ……）</text>
+
+  <!-- Arrow from developer to modules -->
+  <path d="M 400 380 L 400 348" stroke="#8957e5" stroke-width="1.5" stroke-dasharray="4,3" marker-end="url(#arrowPurple)"/>
+  
+  <!-- Legend at bottom -->
+  <line x1="50" y1="490" x2="120" y2="490" stroke="#30363d" stroke-width="1"/>
+  <text x="130" y="495" fill="#8b949e" font-size="12">引擎提供服务 · 模块声明能力 · 开发者按协议实现</text>
+</svg>
