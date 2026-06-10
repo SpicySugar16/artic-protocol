@@ -1,0 +1,24 @@
+[module]
+id = "emotion.detect"
+name = "Emotion Detection"
+version = "1.0.0"
+language = "python"
+entry = "module/main.py"
+description = "Detect emotions from text input using keyword matching and sentiment analysis"
+
+[module.author]
+name = "Artic Community"
+email = "community@artic-protocol.org"
+url = "https://github.com/SpicySugar16/artic-protocol"
+
+[module.declare]
+provides = ["emotion.detect"]
+requires = []
+handlers = ["system.startup"]
+
+[compatibility]
+min_protocol_version = "draft-01"
+engines = ["tremolite", "*"]
+
+[install]
+env = { LOG_LEVEL = "info" }

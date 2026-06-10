@@ -286,3 +286,150 @@ interface Coupling {
 2. 引擎可选择校验模块声明中的 `author.signature`
 3. 生产环境中，耦合器注入前应验证模块的来源
 4. 消息负载的大小应有限制（建议引擎层面限制最大 10MB）
+
+---
+
+## 10. 模块打包格式（Module Package Format）
+
+模块打包格式定义了如何将模块封装为可分发、可安装的标准包。旨在实现「一次打包，到处安装」——像 Android 的 APK 或 Docker 镜像一样。
+
+### 10.1 包格式
+
+| 属性 | 值 |
+|------|----|
+| 归档格式 | `.tar.gz`（gzip 压缩的 tar 包） |
+| 扩展名 | `.amod`（Artic Module） |
+| 最大体积 | 建议 50MB（引擎实现可自定义） |
+
+### 10.2 目录结构
+
+```
+module-name-v1.0.0/
+├── manifest.toml          # [必需] 模块清单
+├── module/                # [必需] 模块实现代码
+│   ├── main.py            # 入口文件（由 manifest.entry 指定）
+│   └── ...
+├── assets/                # [可选] 资源文件
+│   ├── icons/
+│   ├── templates/
+│   └── ...
+├── tests/                 # [可选] 测试
+│   └── ...
+└── README.md              # [推荐] 模块说明文档
+```
+
+打包后文件名：`module-name-v1.0.0.amod`
+
+### 10.3 清单文件（manifest.toml）
+
+```toml
+[module]
+id = "emotion.detect"              # 模块唯一标识（应与 declaration 一致）
+name = "Emotion Detection"         # 人类可读名称
+version = "1.0.0"                 # 语义版本号
+language = "python"                # 实现语言
+entry = "module/main.py"           # 入口文件路径（包内相对路径）
+description = "Detect emotions from text input"
+
+[module.author]
+name = "SpicySugar16"
+email = "spicysugar@example.com"
+url = "https://github.com/SpicySugar16"
+
+[module.declare]
+provides = ["emotion.detect"]       # 提供的服务（对应 Artic Protocol Declaration）
+requires = ["memory.recall"]        # 依赖的服务
+handlers = ["system.startup"]       # 感兴趣的事件
+
+[compatibility]
+min_protocol_version = "draft-01"   # 最低协议版本
+engines = ["tremolite", "*"]        # 兼容的引擎列表（"*" 表示通用）
+
+[install]
+entry_args = "--model light"        # 入口文件启动参数（可选）
+env = { LOG_LEVEL = "info" }        # 注入的环境变量（可选）
+post_install = "./scripts/setup.sh" # 安装后执行的脚本（可选，包内路径）
+```
+
+### 10.4 入口约定
+
+引擎安装模块后，根据 `manifest.module.entry` 启动模块，向入口进程注入 `PowerCoupling`。
+
+**进程式模块（推荐）：**
+
+以独立进程运行，通过 stdin/stdout 或 TCP 与引擎通信，使用标准消息信封。
+
+```python
+# module/main.py
+import sys, json
+
+def main():
+    # 引擎将耦合信息通过环境变量注入
+    coupling_addr = os.environ["ARTIC_COUPLING"]
+    module_id = os.environ["ARTIC_MODULE_ID"]
+    
+    for line in sys.stdin:
+        envelope = json.loads(line)
+        # 处理消息...
+        response = {"id": envelope["id"], "kind": "response", "payload": {...}}
+        sys.stdout.write(json.dumps(response) + "\n")
+        sys.stdout.flush()
+
+if __name__ == "__main__":
+    main()
+```
+
+**库式模块（内嵌）：**
+
+模块作为动态库加载到引擎进程中，引擎直接调用模块的入口函数。
+
+```rust
+// module/main.rs
+use artic_sdk::prelude::*;
+
+struct EmotionModule;
+
+impl Module for EmotionModule {
+    fn handle(&self, ctx: &Context, msg: Message) -> Result<Reply> {
+        // ...
+    }
+}
+
+artic_export!(EmotionModule);
+```
+
+### 10.5 安装接口
+
+引擎应暴露以下安装/卸载命令：
+
+| 操作 | 说明 |
+|------|------|
+| `engine install ./emotion-v1.amod` | 从本地路径安装 |
+| `engine install https://registry.example.com/emotion-v1.amod` | 从 URL 安装 |
+| `engine uninstall emotion.detect` | 按模块 ID 卸载 |
+| `engine list` | 列出已安装模块 |
+| `engine info emotion.detect` | 查看模块详情 |
+
+安装过程：
+
+1. 校验包完整性（校验 manifest.toml 必需字段）
+2. 解压到引擎的模块目录（如 `~/.artic/modules/emotion.detect/`）
+3. 校验 `min_protocol_version` 与引擎兼容
+4. 解析 `requires` 依赖，检查是否已满足
+5. 如有 `post_install` 脚本，以模块目录为工作目录执行
+6. 启动模块，注入耦合器，注册到服务注册表
+
+### 10.6 分发规范（建议）
+
+- **Registry（可选）**：社区可搭建模块注册中心，提供搜索、版本管理、下载
+- **签名（可选）**：manifest.toml 可包含 `[module.signature]` 字段：
+  ```toml
+  [module.signature]
+  algorithm = "ed25519"
+  value = "base64_encoded_signature_here"
+  ```
+- **命名空间**：建议模块 ID 采用 `<作者>.<领域>.<操作>` 格式避免冲突
+
+### 10.7 示例
+
+一个完整的打包流程示例见 `examples/packaging/` 目录。
